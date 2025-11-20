@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1 Add Review
+
+  form(action="/", method="get")
+    .mb-3
+      label.form-label Name
+      input.form-control(type='text')
+
+    .mb-3
+      label.form-label Rating
+      select.form-select
+        option 5
+        option 4
+        option 3
+        option 2
+        option 1
+
+    .mb-3
+      label.form-label Review
+      textarea.form-control(rows=5)
+
+    button.btn.btn-primary Submit Review
