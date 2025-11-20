@@ -1,0 +1,24 @@
+
+extends layout
+
+block content
+  h1 Student Login
+
+  form(action='/login', method='POST')
+    fieldset
+      legend Login to Your Account
+
+      .form-group
+        label(for='tNumber') T Number or Email:
+        input(type='text', id='tNumber', name='tNumber', placeholder='T12345678 or email@example.com', required)
+
+      .form-group
+        label(for='password') Password:
+        input(type='password', id='password', name='password', required)
+
+      .form-group
+        button(type='submit') Login
+
+  p
+    | Don’t have an account?
+    a(href='/register') Register here
