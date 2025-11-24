@@ -29,4 +29,5 @@ const buildingSchema = new mongoose.Schema({
   reviews: [reviewSchema]
 });
 
-mongoose.model('Building', buildingSchema);
+mongoose.model('Building', buildingSchema, 'Buildings');
+

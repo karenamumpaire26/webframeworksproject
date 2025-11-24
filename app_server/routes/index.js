@@ -1,14 +1,27 @@
+
 const express = require('express');
 const router = express.Router();
-const ctrlBuildings = require('../controllers/buildings');
+
 const ctrlOthers = require('../controllers/others');
+const ctrlBuildings = require('../controllers/buildings');
+
 
 router.get('/', ctrlBuildings.homelist);
-router.get('/building/:id', ctrlBuildings.buildingInfo);
-router.get('/building/:id/review/new', ctrlBuildings.addReview);
-
 router.get('/about', ctrlOthers.about);
-router.get('/register', ctrlOthers.register);
-router.get('/login', ctrlOthers.login);
+
+// Register page
+router
+  .route('/register')
+  .get(ctrlOthers.register)
+  .post(ctrlOthers.register);
+
+// Login page
+router
+  .route('/login')
+  .get(ctrlOthers.login)
+  .post(ctrlOthers.login);
+
+
+
 
 module.exports = router;

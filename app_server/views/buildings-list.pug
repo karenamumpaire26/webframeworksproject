@@ -1,25 +1,23 @@
 extends layout
 
 block content
-  .row.banner
-    .col-12
-      h1= pageHeader.title
-      small &nbsp;#{pageHeader.strapline}
+  .text-center.mb-5
+    h1 Campus Buildings
+    p.lead Explore MTU buildings and student facilities.
 
-  .row
-    .col-12.col-md-8
-      each building in buildings
-        .card
-          .card-block
-            h4
-              a(href="/building/" + building.name)= building.name
-              small &nbsp;
-              // Star rating (we will add mixin later)
-              span.badge.badge-pill.badge-default.float-right= building.distance
-            p.address= building.address
-            .facilities
-              each fac in building.facilities
-                span.badge.badge-warning= fac
+  .row.justify-content-center
+    each building in buildings
+      .col-md-4.mb-4
+        .card.shadow-sm
+          .card-body
+            h4.card-title= building.name
+            p.text-muted= building.address
 
-    .col-12.col-md-4
-      p.lead StudentInc helps MTU students find essential campus facilities easily.
+            if building.facilities
+              p.mb-2
+                strong Facilities:
+              ul
+                each fac in building.facilities
+                  li= fac
+
+            a.btn.btn-primary.mt-3(href=`/building/${building._id}`) View Details →

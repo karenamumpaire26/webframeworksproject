@@ -1,31 +1,54 @@
 extends layout
 
 block content
-  .row.banner
-    .col-12
-      h1= building.name
+  .container.mt-5
 
-  .row
-    .col-12.col-lg-9
+    // PAGE HEADER
+    .row.banner.mb-4
+      .col-12.text-center
+        h1.display-4= building.name
+        hr
 
-      p.address= building.address
+    .row
+     
+      .col-12.col-lg-9
 
-      .card.card-primary
-        .card-block
-          h2.card-title Description
-          p= building.description
+        
+        p.text-muted.mb-4.text-center= building.address
 
-      .card.card-primary
-        .card-block
-          h2.card-title Facilities
-          each fac in building.facilities
-            span.badge.badge-warning= fac
+       
+        .card.mb-4.shadow-sm
+          .card-body
+            h2.h4.mb-3 Description
+            p= building.description
+        .card.mb-4.shadow-sm
+          .card-body
+            h2.h4.mb-3 Facilities
+            if building.facilities && building.facilities.length
+              each fac in building.facilities
+                span.badge.bg-warning.text-dark.me-2.mb-2 #{fac}
+            else
+              p.text-muted No facilities listed.
 
-      .card.card-primary
-        .card-block
-          h2.card-title Opening Hours
-          each hour in building.openingHours
-            p.card-text= hour
+        
+        .card.mb-4.shadow-sm
+          .card-body
+            h2.h4.mb-3 Opening Hours
 
-    .col-12.col-lg-3
-      p.lead Explore MTU and learn more about campus services.
+            if building.openingTimes && building.openingTimes.length
+              each t in building.openingTimes
+                p.mb-1
+                  | #{t.days}: 
+                  if t.closed
+                    strong Closed
+                  else
+                    | #{t.opening} – #{t.closing}
+            else
+              p.text-muted No opening hours available.
+
+
+      
+      .col-12.col-lg-3
+        .card.shadow-sm
+          .card-body
+            p.lead.text-center Explore MTU and learn more about campus services.

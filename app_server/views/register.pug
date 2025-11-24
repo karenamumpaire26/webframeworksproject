@@ -1,35 +1,37 @@
 extends layout
 
 block content
-  h1 StudentInc Registration Form
+  .row.justify-content-center
+    .col-md-8
+      .card.p-4.shadow
+        h2.text-center.mb-4 StudentInc Registration
 
-  form(action='/submit', method='POST')
-    fieldset
-      legend Student Information
+        form(action='/submit', method='POST')
 
-      .form-group
-        label(for='tNumber') T Number:
-        input(type='text', id='tNumber', name='tNumber', pattern='T[0-9]{8}', placeholder='T12345678', required)
+          .row
+            .col-md-6.mb-3
+              label.form-label(for='tNumber') T Number
+              input.form-control(type='text', name='tNumber', pattern='T[0-9]{8}', required)
 
-      .form-group
-        label(for='fullName') Full Name:
-        input(type='text', id='fullName', name='fullName', required)
+            .col-md-6.mb-3
+              label.form-label(for='fullName') Full Name
+              input.form-control(type='text', name='fullName', required)
 
-      .form-group
-        label(for='address') Address:
-        input(type='text', id='address', name='address', required)
+          .mb-3
+            label.form-label(for='address') Address
+            input.form-control(type='text', name='address', required)
 
-      .form-group
-        label(for='phone') Phone Number:
-        input(type='tel', id='phone', name='phone', pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}', placeholder='123-456-7890', required)
+          .row
+            .col-md-6.mb-3
+              label.form-label(for='phone') Phone Number
+              input.form-control(type='text', name='phone', required)
 
-      .form-group
-        label(for='email') Email Address:
-        input(type='email', id='email', name='email', required)
+            .col-md-6.mb-3
+              label.form-label(for='email') Email Address
+              input.form-control(type='email', name='email', required)
 
-      .form-group
-        button(type='submit') Submit Registration
+          button.btn.btn-success.w-100(type='submit') Submit Registration
 
-  p
-    | Have an account?
-    a(href='/login') Login here
+        p.text-center.mt-3
+          | Already registered?
+          a(href='/login') Login here

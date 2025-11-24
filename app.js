@@ -1,6 +1,8 @@
 require('./app_api/models/db');
 require('./app_api/models/buildings');
 
+
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -22,9 +24,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ROUTES
+
+app.use('/api', apiRoutes);   
 app.use('/', indexRouter);
-app.use('/api', apiRoutes);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

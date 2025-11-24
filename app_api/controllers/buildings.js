@@ -1,72 +1,83 @@
-// TEMPORARY hard-coded data
-const buildingsData = [
-  {
-    id: "An Cuan",
-    name: "An Cuan",
-    address: "North Campus",
-    rating: 4,
-    facilities: ["Study rooms", "Common areas", "WiFi"]
-  },
-  {
-    id: "KSA Building",
-    name: "KSA Building",
-    address: "South Campus",
-    rating: 5,
-    facilities: ["IT Labs", "Lecture halls", "Printing"]
-  },
-  {
-    id: "BIT Building",
-    name: "BIT Building",
-    address: "North Campus",
-    rating: 3,
-    facilities: ["Classrooms", "Study spaces"]
-  }
-];
+const mongoose = require('mongoose');
+const Building = mongoose.model('Building');
 
-// GET all buildings
-const buildingList = (req, res) => {
-  res.status(200).json(buildingsData);
+/* GET all buildings */
+const buildingList = async (req, res) => {
+  try {
+    const buildings = await Building.find().lean();
+    res.status(200).json(buildings);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 };
 
-// GET one building
-const buildingReadOne = (req, res) => {
-  const building = buildingsData.find(b => b.id === req.params.id);
-
-  if (!building) {
-    return res.status(404).json({ message: "Building not found" });
+/* GET one building */
+const buildingReadOne = async (req, res) => {
+   if (req.params && req.params.id) {
+    Building
+      .findById(req.params.id)
+      .then(building => {
+        if (!building) {
+          return res
+            .status(404)
+            .json({ message: "building id not found" });
+        }
+        res
+          .status(200)
+          .json(building);
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ message: "Error retrieving building", error: err });
+      });
+  } else {
+    res
+      .status(400)
+      .json({ message: "No building id in request" });
   }
 
-  res.status(200).json(building);
+
 };
 
-// POST new building
-const buildingCreate = (req, res) => {
-  buildingsData.push(req.body);
-  res.status(201).json(req.body);
-};
-
-// UPDATE a building
-const buildingUpdate = (req, res) => {
-  const index = buildingsData.findIndex(b => b.id === req.params.id);
-
-  if (index === -1) {
-    return res.status(404).json({ message: "Building not found" });
+/* POST new building */
+const buildingCreate = async (req, res) => {
+  try {
+    const newBuilding = await Building.create(req.body);
+    res.status(201).json(newBuilding);
+  } catch (err) {
+    res.status(400).json(err);
   }
-
-  buildingsData[index] = req.body;
-  res.status(200).json(req.body);
 };
 
-// DELETE building
-const buildingDelete = (req, res) => {
-  const index = buildingsData.findIndex(b => b.id === req.params.id);
-
-  if (index === -1) {
-    return res.status(404).json({ message: "Building not found" });
+/* PUT update building */
+const buildingUpdate = async (req, res) => {
+  try {
+    const updated = await Building.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!updated) {
+      return res.status(404).json({ message: "Building not found" });
+    }
+    res.status(200).json(updated);
+  } catch (err) {
+    res.status(400).json(err);
   }
+};
 
-  buildingsData.splice(index, 1);
-  res.status(204).json(null);
+/* DELETE building */
+const buildingDelete = async (req, res) => {
+  try {
+    const deleted = await Building.findByIdAndDelete(req.params.id);
+    if (!deleted) {
+      return res.status(404).json({ message: "Building not found" });
+    }
+    res.status(204).json(null);
+  } catch (err) {
+    res.status(400).json(err);
+  }
 };
 
 module.exports = {
