@@ -1,3 +1,5 @@
+const request = require('request');
+
 const about = function (req, res) {
   res.render('generic-text', { 
     title: 'About StudentInc',
@@ -7,15 +9,12 @@ const about = function (req, res) {
     `
   });
 };
-const request = require('request');
 
-// SHOW REGISTER PAGE
 const register = (req, res) => {
   if (req.method === "GET") {
     return res.render('register', { title: "Register" });
   }
 
-  
   const path = '/api/register';
   const postData = {
     fullName: req.body.fullName,
@@ -44,9 +43,14 @@ const register = (req, res) => {
     }
   });
 };
+const login = function (req, res) {
+  res.render('login', {
+    title: 'Login'
+  });
+};
+
 
 module.exports = { 
   about,
-  register,
-  login
+  register,login
 };

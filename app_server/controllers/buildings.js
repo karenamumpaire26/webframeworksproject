@@ -1,12 +1,12 @@
+
 const request = require("request");
 const apiOptions = {
   server: "http://localhost:3000"
 };
 
 if (process.env.NODE_ENV === "production") {
-  apiOptions.server = "YOUR_RENDER_URL";
+  apiOptions.server = "YOUR_RENDER_URL"; // keep as is for now
 }
-
 
 
 const homelist = function (req, res) {
@@ -30,8 +30,7 @@ const homelist = function (req, res) {
   });
 };
 
-
-
+// DETAILS PAGE: GET /building/:id → uses /api/buildings/:id
 const buildingInfo = function (req, res) {
   const path = `/api/buildings/${req.params.id}`;
 
@@ -48,7 +47,7 @@ const buildingInfo = function (req, res) {
         building: body
       });
     } else {
-      res.status(response.statusCode).render("error", {
+      res.status(response ? response.statusCode : 500).render("error", {
         message: "Building not found",
         error: body
       });
@@ -56,19 +55,15 @@ const buildingInfo = function (req, res) {
   });
 };
 
-
-
 const addReview = function (req, res) {
   res.render("buildings-review-form", {
     title: "Add Review"
   });
 };
 
-
-
 module.exports = {
   homelist,
   buildingInfo,
   addReview,
-  buildingList: homelist // this matches your route /buildings
+  buildingList: homelist // optional alias
 };

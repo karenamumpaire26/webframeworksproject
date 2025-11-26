@@ -2,25 +2,20 @@ extends layout
 
 block content
   .container.mt-5
-
-    // PAGE HEADER
     .row.banner.mb-4
       .col-12.text-center
         h1.display-4= building.name
         hr
 
     .row
-     
       .col-12.col-lg-9
-
-        
         p.text-muted.mb-4.text-center= building.address
 
-       
         .card.mb-4.shadow-sm
           .card-body
             h2.h4.mb-3 Description
             p= building.description
+
         .card.mb-4.shadow-sm
           .card-body
             h2.h4.mb-3 Facilities
@@ -30,15 +25,13 @@ block content
             else
               p.text-muted No facilities listed.
 
-        
         .card.mb-4.shadow-sm
           .card-body
             h2.h4.mb-3 Opening Hours
-
             if building.openingTimes && building.openingTimes.length
               each t in building.openingTimes
                 p.mb-1
-                  | #{t.days}: 
+                  | #{t.days}:
                   if t.closed
                     strong Closed
                   else
@@ -46,8 +39,6 @@ block content
             else
               p.text-muted No opening hours available.
 
-
-      
       .col-12.col-lg-3
         .card.shadow-sm
           .card-body

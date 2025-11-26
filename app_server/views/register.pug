@@ -6,29 +6,36 @@ block content
       .card.p-4.shadow
         h2.text-center.mb-4 StudentInc Registration
 
-        form(action='/submit', method='POST')
+        if error
+          .alert.alert-danger= error
+
+        form(action='/register', method='POST')
 
           .row
             .col-md-6.mb-3
               label.form-label(for='tNumber') T Number
-              input.form-control(type='text', name='tNumber', pattern='T[0-9]{8}', required)
+              input.form-control(type='text', name='tNumber', id='tNumber', pattern='T[0-9]{8}', required)
 
             .col-md-6.mb-3
               label.form-label(for='fullName') Full Name
-              input.form-control(type='text', name='fullName', required)
+              input.form-control(type='text', name='fullName', id='fullName', required)
 
           .mb-3
             label.form-label(for='address') Address
-            input.form-control(type='text', name='address', required)
+            input.form-control(type='text', name='address', id='address')
 
           .row
             .col-md-6.mb-3
               label.form-label(for='phone') Phone Number
-              input.form-control(type='text', name='phone', required)
+              input.form-control(type='text', name='phone', id='phone')
 
             .col-md-6.mb-3
               label.form-label(for='email') Email Address
-              input.form-control(type='email', name='email', required)
+              input.form-control(type='email', name='email', id='email', required)
+
+          .mb-3
+            label.form-label(for='password') Password
+            input.form-control(type='password', name='password', id='password', required)
 
           button.btn.btn-success.w-100(type='submit') Submit Registration
 

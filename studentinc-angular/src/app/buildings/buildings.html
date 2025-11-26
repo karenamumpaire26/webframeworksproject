@@ -1,0 +1,15 @@
+<div class="container">
+  <h1>{{ title }}</h1>
+
+  <p *ngIf="loading">Loading buildings...</p>
+  <p *ngIf="error">{{ error }}</p>
+
+  <ul *ngIf="!loading && !error">
+    <li *ngFor="let b of buildings">
+      <h2>{{ b.name }}</h2>
+      <p><strong>Address:</strong> {{ b.address }}</p>
+      <p><strong>Facilities:</strong> {{ b.facilities.join(', ') }}</p>
+      <p><strong>Rating:</strong> {{ b.rating }}/5</p>
+    </li>
+  </ul>
+</div>
