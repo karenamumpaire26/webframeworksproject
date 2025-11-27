@@ -30,27 +30,27 @@ const homelist = function (req, res) {
   });
 };
 
-// DETAILS PAGE: GET /building/:id → uses /api/buildings/:id
-const buildingInfo = function (req, res) {
-  const path = `/api/buildings/${req.params.id}`;
+
+const buildingInfo = (req, res) => {
+  const buildingId = req.params.buildingid;
+
+  const path = `/api/buildings/${buildingId}`;
 
   const requestOptions = {
     url: apiOptions.server + path,
-    method: "GET",
-    json: {}
+    method: 'GET',
+    json: {},
+    rejectUnauthorized: false
   };
 
   request(requestOptions, (err, response, body) => {
     if (response && response.statusCode === 200) {
-      res.render("buildings-info", {
-        title: body.name,
-        building: body
+      res.render('building-info', { 
+        building: body,
+        title: body.name 
       });
     } else {
-      res.status(response ? response.statusCode : 500).render("error", {
-        message: "Building not found",
-        error: body
-      });
+      res.render('error', { message: 'Building not found' });
     }
   });
 };

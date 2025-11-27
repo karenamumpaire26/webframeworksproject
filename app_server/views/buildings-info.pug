@@ -1,45 +1,28 @@
 extends layout
 
 block content
-  .container.mt-5
-    .row.banner.mb-4
-      .col-12.text-center
-        h1.display-4= building.name
-        hr
+  h1= building.name
 
-    .row
-      .col-12.col-lg-9
-        p.text-muted.mb-4.text-center= building.address
+  p
+    strong Address: 
+    |  #{building.address}
 
-        .card.mb-4.shadow-sm
-          .card-body
-            h2.h4.mb-3 Description
-            p= building.description
+  p
+    strong Description:
+    |  #{building.description}
 
-        .card.mb-4.shadow-sm
-          .card-body
-            h2.h4.mb-3 Facilities
-            if building.facilities && building.facilities.length
-              each fac in building.facilities
-                span.badge.bg-warning.text-dark.me-2.mb-2 #{fac}
-            else
-              p.text-muted No facilities listed.
+  p
+    strong Rating:
+    |  #{building.rating} / 5
 
-        .card.mb-4.shadow-sm
-          .card-body
-            h2.h4.mb-3 Opening Hours
-            if building.openingTimes && building.openingTimes.length
-              each t in building.openingTimes
-                p.mb-1
-                  | #{t.days}:
-                  if t.closed
-                    strong Closed
-                  else
-                    | #{t.opening} – #{t.closing}
-            else
-              p.text-muted No opening hours available.
+  if building.facilities && building.facilities.length
+    h3 Facilities
+    ul
+      each f in building.facilities
+        li= f
 
-      .col-12.col-lg-3
-        .card.shadow-sm
-          .card-body
-            p.lead.text-center Explore MTU and learn more about campus services.
+  if building.openingHours && building.openingHours.length
+    h3 Opening Hours
+    ul
+      each h in building.openingHours
+        li= h

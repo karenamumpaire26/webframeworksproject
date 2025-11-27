@@ -36,9 +36,7 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'app_public')));
 
-app.use('/angular', express.static(
-  path.join(__dirname, 'studentinc-angular', 'dist', 'studentinc-angular','browser')
-));
+
 
 app.use('/api', apiRoutes);
 app.use('/', indexRouter);
