@@ -7,7 +7,7 @@ const ctrlBuildings = require('../controllers/buildings');
 
 
 router.get('/', ctrlBuildings.homelist);
-router.get('/building/:id', ctrlBuildings.buildingInfo);
+router.get('/building/:buildingid', ctrlBuildings.buildingInfo);
 router.get('/about', ctrlOthers.about);
 
 router
@@ -17,6 +17,8 @@ router
 
 router
   .route('/login')
-  .get(ctrlOthers.login);
+  .get(ctrlOthers.login)
+  .post(ctrlOthers.processLogin);
+
 
 module.exports = router;

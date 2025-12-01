@@ -10,12 +10,11 @@ const about = function (req, res) {
   });
 };
 
-const register = (req, res) => {
+const register = async (req, res) => {
   if (req.method === "GET") {
     return res.render('register', { title: "Register" });
   }
 
-  const path = '/api/register';
   const postData = {
     fullName: req.body.fullName,
     tNumber: req.body.tNumber,
@@ -23,34 +22,75 @@ const register = (req, res) => {
     password: req.body.password
   };
 
-  const requestOptions = {
-    url: 'http://localhost:3000' + path,
-    method: 'POST',
-    json: postData
+  try {
+    const apiResponse = await fetch('http://localhost:3000/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(postData)
+    });
+
+    const body = await apiResponse.json();
+
+  
+    if (apiResponse.status === 201) {
+      return res.redirect('/login');
+    }
+
+   
+    return res.render('register', {
+      title: "Register",
+      error: body.message || "Registration failed"
+    });
+
+  } catch (err) {
+    console.error(err);
+    return res.render('register', {
+      title: "Register",
+      error: "A server error occurred."
+    });
+  }
+};
+
+const login = function (req, res) {
+  res.render('login', { title: 'Login' });
+};
+
+const processLogin = async (req, res) => {
+  const postData = {
+    identifier: req.body.identifier,
+    password: req.body.password
   };
 
-  request(requestOptions, (err, response, body) => {
-    if (response.statusCode === 201) {
-      return res.render('register-success', {
-        title: "Registration Complete",
-        user: body.user
-      });
-    } else {
-      return res.render('register', {
-        title: "Register",
-        error: body.message
-      });
-    }
-  });
-};
-const login = function (req, res) {
-  res.render('login', {
-    title: 'Login'
-  });
-};
+  try {
+    const apiResponse = await fetch("http://localhost:3000/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(postData)
+    });
 
+    const body = await apiResponse.json();
+
+    if (apiResponse.status === 200) {
+      return res.redirect("/");
+    }
+
+    return res.render("login", {
+      title: "Login",
+      error: body.message || "Login failed"
+    });
+
+  } catch (err) {
+    console.error("LOGIN ERROR:", err);
+    return res.render("login", {
+      title: "Login",
+      error: "Server error. Try again."
+    });
+  }
+};
 
 module.exports = { 
   about,
-  register,login
+  register,
+  login,
+  processLogin
 };

@@ -2,21 +2,21 @@ extends layout
 
 block content
   .row.justify-content-center
-    .col-md-6
+    .col-md-4
       .card.p-4.shadow
         h2.text-center.mb-4 Login
 
-        form(action='/login', method='POST')
-          .mb-3
-            label.form-label(for='identifier') T Number or Email
-            input.form-control(type='text', name='identifier', id='identifier', required)
+        if error
+          .alert.alert-danger= error
+
+        form(action="/login", method="POST")
 
           .mb-3
-            label.form-label(for='password') Password
-            input.form-control(type='password', id='password', name='password', required)
+            label(for="identifier") Email or T Number
+            input.form-control(type="text", id="identifier", name="identifier", required)
 
-          button.btn.btn-primary.w-100(type='submit') Login
+          .mb-3
+            label(for="password") Password
+            input.form-control(type="password", id="password", name="password", required)
 
-        p.text-center.mt-3
-          | Don’t have an account?
-          a(href='/register') Register here
+          button.btn.btn-primary.w-100(type="submit") Login

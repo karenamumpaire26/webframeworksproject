@@ -9,16 +9,11 @@ if (process.env.NODE_ENV === "production") {
 }
 
 
-const homelist = function (req, res) {
-  const path = "/api/buildings";
+const homelist = async (req, res) => {
+  try {
+    const response = await fetch(`${apiOptions.server}/api/buildings`);
+    const body = await response.json();
 
-  const requestOptions = {
-    url: apiOptions.server + path,
-    method: "GET",
-    json: {}
-  };
-
-  request(requestOptions, (err, response, body) => {
     res.render("buildings-list", {
       title: "StudentInc – Campus Buildings",
       pageHeader: {
@@ -27,24 +22,21 @@ const homelist = function (req, res) {
       },
       buildings: body
     });
-  });
+  } catch (err) {
+    res.render("error", { message: "Unable to load buildings" });
+  }
 };
 
 
-const buildingInfo = (req, res) => {
+
+const buildingInfo = async (req, res) => {
   const buildingId = req.params.buildingid;
 
-  const path = `/api/buildings/${buildingId}`;
+  try {
+    const response = await fetch(`${apiOptions.server}/api/buildings/${buildingId}`);
+    const body = await response.json();
 
-  const requestOptions = {
-    url: apiOptions.server + path,
-    method: 'GET',
-    json: {},
-    rejectUnauthorized: false
-  };
-
-  request(requestOptions, (err, response, body) => {
-    if (response && response.statusCode === 200) {
+    if (response.ok) {
       res.render('building-info', { 
         building: body,
         title: body.name 
@@ -52,8 +44,11 @@ const buildingInfo = (req, res) => {
     } else {
       res.render('error', { message: 'Building not found' });
     }
-  });
+  } catch (err) {
+    res.render('error', { message: 'Building not found' });
+  }
 };
+
 
 const addReview = function (req, res) {
   res.render("buildings-review-form", {
