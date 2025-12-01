@@ -6,6 +6,6 @@ mongoose.connect(dbURI)
   .then(() => console.log("Mongoose connected to StudentInc DB"))
   .catch(err => console.log("Mongoose connection error:", err));
 
-// LOAD MODELS
+
 require('./buildings');
 require('./user');
