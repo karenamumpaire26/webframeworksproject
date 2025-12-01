@@ -80,7 +80,7 @@ const processLogin = async (req, res) => {
     });
 
   } catch (err) {
-    console.error("LOGIN ERROR:", err);
+    console.error("ERROR:", err);
     return res.render("login", {
       title: "Login",
       error: "Server error. Try again."
