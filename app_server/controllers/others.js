@@ -1,5 +1,8 @@
 const request = require('request');
 
+
+const API_BASE = process.env.API_URL || "http://localhost:3000";
+
 const about = function (req, res) {
   res.render('generic-text', { 
     title: 'About StudentInc',
@@ -9,6 +12,7 @@ const about = function (req, res) {
     `
   });
 };
+
 
 const register = async (req, res) => {
   if (req.method === "GET") {
@@ -23,7 +27,7 @@ const register = async (req, res) => {
   };
 
   try {
-    const apiResponse = await fetch('http://localhost:3000/api/register', {
+    const apiResponse = await fetch(`${API_BASE}/api/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(postData)
@@ -31,25 +35,24 @@ const register = async (req, res) => {
 
     const body = await apiResponse.json();
 
-  
     if (apiResponse.status === 201) {
       return res.redirect('/login');
     }
 
-   
     return res.render('register', {
       title: "Register",
       error: body.message || "Registration failed"
     });
 
   } catch (err) {
-    console.error(err);
+    console.error("REGISTER ERROR:", err);
     return res.render('register', {
       title: "Register",
       error: "A server error occurred."
     });
   }
 };
+
 
 const login = function (req, res) {
   res.render('login', { title: 'Login' });
@@ -62,7 +65,7 @@ const processLogin = async (req, res) => {
   };
 
   try {
-    const apiResponse = await fetch("http://localhost:3000/api/login", {
+    const apiResponse = await fetch(`${API_BASE}/api/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(postData)
@@ -80,7 +83,7 @@ const processLogin = async (req, res) => {
     });
 
   } catch (err) {
-    console.error("ERROR:", err);
+    console.error("LOGIN ERROR:", err);
     return res.render("login", {
       title: "Login",
       error: "Server error. Try again."
